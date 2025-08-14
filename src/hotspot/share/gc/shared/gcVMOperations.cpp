@@ -75,12 +75,12 @@ const char* VM_GC_Operation::cause() const {
 // The same dtrace probe can't be inserted in two different files, so we
 // have to call it here, so it's only in one file.  Can't create new probes
 // for the other file anymore.   The dtrace probes have to remain stable.
-void VM_GC_Operation::notify_gc_begin(bool full) {
+void __attribute__ ((noinline)) VM_GC_Operation::notify_gc_begin(bool full) {
   HOTSPOT_GC_BEGIN(
                    full);
 }
 
-void VM_GC_Operation::notify_gc_end() {
+void __attribute__ ((noinline)) VM_GC_Operation::notify_gc_end() {
   HOTSPOT_GC_END();
 }
 
