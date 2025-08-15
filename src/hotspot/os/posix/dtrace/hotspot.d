@@ -19,7 +19,7 @@
  * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
  * or visit www.oracle.com if you need additional information or have any
  * questions.
- *  
+ *
  */
 
 provider hotspot {
@@ -39,13 +39,16 @@ provider hotspot {
   probe vmops__request(char*, uintptr_t, int);
   probe vmops__begin(char*, uintptr_t, int);
   probe vmops__end(char*, uintptr_t, int);
+  probe gc__thread__spawn();
+  probe gc__thread__work__start();
+  probe gc__thread__work__end();
   probe gc__begin(uintptr_t);
   probe gc__end();
   probe mem__pool__gc__begin(
-    char*, uintptr_t, char*, uintptr_t, 
+    char*, uintptr_t, char*, uintptr_t,
     uintptr_t, uintptr_t, uintptr_t, uintptr_t);
   probe mem__pool__gc__end(
-    char*, uintptr_t, char*, uintptr_t, 
+    char*, uintptr_t, char*, uintptr_t,
     uintptr_t, uintptr_t, uintptr_t, uintptr_t);
   probe thread__start(char*, uintptr_t, uintptr_t, uintptr_t, uintptr_t);
   probe thread__stop(char*, uintptr_t, uintptr_t, uintptr_t, uintptr_t);
@@ -56,14 +59,14 @@ provider hotspot {
   probe thread__park__end(uintptr_t);
   probe thread__unpark(uintptr_t);
   probe method__compile__begin(
-    char*, uintptr_t, char*, uintptr_t, char*, uintptr_t, char*, uintptr_t); 
+    char*, uintptr_t, char*, uintptr_t, char*, uintptr_t, char*, uintptr_t);
   probe method__compile__end(
-    char*, uintptr_t, char*, uintptr_t, char*, uintptr_t, 
-    char*, uintptr_t, uintptr_t); 
+    char*, uintptr_t, char*, uintptr_t, char*, uintptr_t,
+    char*, uintptr_t, uintptr_t);
   probe compiled__method__load(
     char*, uintptr_t, char*, uintptr_t, char*, uintptr_t, void*, uintptr_t);
   probe compiled__method__unload(
-    char*, uintptr_t, char*, uintptr_t, char*, uintptr_t); 
+    char*, uintptr_t, char*, uintptr_t, char*, uintptr_t);
   probe monitor__contended__enter(uintptr_t, uintptr_t, char*, uintptr_t);
   probe monitor__contended__entered(uintptr_t, uintptr_t, char*, uintptr_t);
   probe monitor__contended__exit(uintptr_t, uintptr_t, char*, uintptr_t);

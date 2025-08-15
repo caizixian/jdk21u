@@ -32,6 +32,7 @@
 #include "runtime/java.hpp"
 #include "runtime/os.hpp"
 #include "runtime/safepoint.hpp"
+#include "utilities/dtrace.hpp"
 
 WorkerTaskDispatcher::WorkerTaskDispatcher() :
     _task(nullptr),
@@ -195,6 +196,7 @@ WorkerThread::WorkerThread(const char* name_prefix, uint name_suffix, WorkerTask
 }
 
 void WorkerThread::run() {
+  HOTSPOT_GC_THREAD_SPAWN();
   os::set_priority(this, NearMaxPriority);
 
   while (true) {

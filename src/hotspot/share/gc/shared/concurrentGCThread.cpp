@@ -29,6 +29,7 @@
 #include "runtime/jniHandles.hpp"
 #include "runtime/mutexLocker.hpp"
 #include "runtime/os.hpp"
+#include "utilities/dtrace.hpp"
 
 ConcurrentGCThread::ConcurrentGCThread() :
     _should_terminate(false),
@@ -42,6 +43,7 @@ void ConcurrentGCThread::create_and_start(ThreadPriority prio) {
 }
 
 void ConcurrentGCThread::run() {
+  HOTSPOT_GC_THREAD_SPAWN();
   // Wait for initialization to complete
   wait_init_completed();
 
