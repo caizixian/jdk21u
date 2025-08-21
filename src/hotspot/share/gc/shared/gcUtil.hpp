@@ -30,6 +30,7 @@
 #include "utilities/debug.hpp"
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/ostream.hpp"
+#include "utilities/dtrace.hpp"
 
 // Catch-all file for utility classes
 
@@ -214,6 +215,24 @@ class LinearLeastSquareFit : public CHeapObj<mtGC> {
   // complementary and both are needed.
   bool decrement_will_decrease();
   bool increment_will_decrease();
+};
+
+void trace_gc_thread_spawn();
+void trace_gc_phase_begin(int phase);
+void trace_gc_phase_end(int phase);
+
+enum GcPhase {
+  Parallel_Pre_Compact = 0,
+  Parallel_Purge_Class_Loader_Data = 1,
+  Parallel_Par_Mark = 2,
+  Parallel_Reference_Processing = 3,
+  Parallel_Weak_Processing = 4,
+  Parallel_Class_Unloading = 5,
+  Parallel_Purge_Unlinked_NMethods = 6,
+  Parallel_Unregister_NMethods = 7,
+  Parallel_Free_Code_Blobs = 8,
+  Parallel_Report_Object_Count = 9,
+  Parallel_Scavenge = 10
 };
 
 #endif // SHARE_GC_SHARED_GCUTIL_HPP

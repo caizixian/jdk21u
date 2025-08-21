@@ -44,6 +44,7 @@
 #include "utilities/dtrace.hpp"
 #include "utilities/macros.hpp"
 #include "utilities/preserveException.hpp"
+#include "utilities/globalDefinitions.hpp"
 #if INCLUDE_G1GC
 #include "gc/g1/g1CollectedHeap.inline.hpp"
 #include "gc/g1/g1Policy.hpp"
@@ -75,12 +76,12 @@ const char* VM_GC_Operation::cause() const {
 // The same dtrace probe can't be inserted in two different files, so we
 // have to call it here, so it's only in one file.  Can't create new probes
 // for the other file anymore.   The dtrace probes have to remain stable.
-void __attribute__ ((noinline)) VM_GC_Operation::notify_gc_begin(bool full) {
+void NOINLINE VM_GC_Operation::notify_gc_begin(bool full) {
   HOTSPOT_GC_BEGIN(
                    full);
 }
 
-void __attribute__ ((noinline)) VM_GC_Operation::notify_gc_end() {
+void NOINLINE VM_GC_Operation::notify_gc_end() {
   HOTSPOT_GC_END();
 }
 

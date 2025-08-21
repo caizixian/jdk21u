@@ -24,6 +24,7 @@
 
 #include "precompiled.hpp"
 #include "gc/shared/concurrentGCThread.hpp"
+#include "gc/shared/gcUtil.hpp"
 #include "runtime/atomic.hpp"
 #include "runtime/init.hpp"
 #include "runtime/jniHandles.hpp"
@@ -43,7 +44,7 @@ void ConcurrentGCThread::create_and_start(ThreadPriority prio) {
 }
 
 void ConcurrentGCThread::run() {
-  HOTSPOT_GC_THREAD_SPAWN();
+  trace_gc_thread_spawn();
   // Wait for initialization to complete
   wait_init_completed();
 

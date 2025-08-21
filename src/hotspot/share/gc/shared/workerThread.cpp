@@ -25,6 +25,7 @@
 #include "precompiled.hpp"
 #include "gc/shared/gc_globals.hpp"
 #include "gc/shared/workerThread.hpp"
+#include "gc/shared/gcUtil.hpp"
 #include "logging/log.hpp"
 #include "memory/iterator.hpp"
 #include "runtime/atomic.hpp"
@@ -32,7 +33,6 @@
 #include "runtime/java.hpp"
 #include "runtime/os.hpp"
 #include "runtime/safepoint.hpp"
-#include "utilities/dtrace.hpp"
 
 WorkerTaskDispatcher::WorkerTaskDispatcher() :
     _task(nullptr),
@@ -196,7 +196,7 @@ WorkerThread::WorkerThread(const char* name_prefix, uint name_suffix, WorkerTask
 }
 
 void WorkerThread::run() {
-  HOTSPOT_GC_THREAD_SPAWN();
+  trace_gc_thread_spawn();
   os::set_priority(this, NearMaxPriority);
 
   while (true) {

@@ -167,3 +167,15 @@ bool LinearLeastSquareFit::decrement_will_decrease() {
 bool LinearLeastSquareFit::increment_will_decrease() {
   return (_slope <= 0.00);
 }
+
+void NOINLINE trace_gc_thread_spawn() {
+  HOTSPOT_GC_THREAD_SPAWN();
+}
+
+void NOINLINE trace_gc_phase_begin(int phase) {
+  HOTSPOT_GC_PHASE_BEGIN(phase);
+}
+
+void NOINLINE trace_gc_phase_end(int phase) {
+  HOTSPOT_GC_PHASE_END(phase);
+}
