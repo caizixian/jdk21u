@@ -991,6 +991,7 @@ void PSParallelCompact::pre_compact()
 
 void PSParallelCompact::post_compact()
 {
+  trace_gc_phase_begin(GcPhase::Parallel_Post_Compact);
   GCTraceTime(Info, gc, phases) tm("Post Compact", &_gc_timer);
   ParCompactionManager::remove_all_shadow_regions();
 
@@ -1052,6 +1053,7 @@ void PSParallelCompact::post_compact()
 
   // Signal that we have completed a visit to all live objects.
   Universe::heap()->record_whole_heap_examined_timestamp();
+  trace_gc_phase_end(GcPhase::Parallel_Post_Compact);
 }
 
 HeapWord*
@@ -1589,6 +1591,7 @@ void PSParallelCompact::summary_phase_msg(SpaceId dst_space_id,
 
 void PSParallelCompact::summary_phase(bool maximum_compaction)
 {
+  trace_gc_phase_begin(GcPhase::Parallel_Summary);
   GCTraceTime(Info, gc, phases) tm("Summary Phase", &_gc_timer);
 
   // Quick summarization of each space into itself, to see how much is live.
@@ -1673,6 +1676,7 @@ void PSParallelCompact::summary_phase(bool maximum_compaction)
   log_develop_trace(gc, compaction)("Summary_phase:  after final summarization");
   NOT_PRODUCT(print_region_ranges());
   NOT_PRODUCT(print_initial_summary_data(_summary_data, _space_info));
+  trace_gc_phase_end(GcPhase::Parallel_Summary);
 }
 
 // This method should contain all heap-specific policy for invoking a full
@@ -2024,6 +2028,7 @@ public:
 };
 
 void PSParallelCompact::marking_phase(ParallelOldTracer *gc_tracer) {
+  trace_gc_phase_begin(GcPhase::Parallel_Marking);
   // Recursively traverse all live objects and mark them
   GCTraceTime(Info, gc, phases) tm("Marking Phase", &_gc_timer);
 
@@ -2124,6 +2129,7 @@ void PSParallelCompact::marking_phase(ParallelOldTracer *gc_tracer) {
   ParCompactionManager::oop_task_queues()->print_and_reset_taskqueue_stats("Oop Queue");
   ParCompactionManager::_objarray_task_queues->print_and_reset_taskqueue_stats("ObjArrayOop Queue");
 #endif
+  trace_gc_phase_end(GcPhase::Parallel_Marking);
 }
 
 class PSAdjustTask final : public WorkerTask {
@@ -2180,11 +2186,13 @@ public:
 };
 
 void PSParallelCompact::adjust_roots() {
+  trace_gc_phase_begin(GcPhase::Parallel_Adjust_Roots);
   // Adjust the pointers to reflect the new locations
   GCTraceTime(Info, gc, phases) tm("Adjust Roots", &_gc_timer);
   uint nworkers = ParallelScavengeHeap::heap()->workers().active_workers();
   PSAdjustTask task(nworkers);
   ParallelScavengeHeap::heap()->workers().run_task(&task);
+  trace_gc_phase_end(GcPhase::Parallel_Adjust_Roots);
 }
 
 // Helper class to print 8 region numbers per line and then print the total at the end.
@@ -2484,6 +2492,7 @@ public:
 };
 
 void PSParallelCompact::compact() {
+  trace_gc_phase_begin(GcPhase::Parallel_Compaction);
   GCTraceTime(Info, gc, phases) tm("Compaction Phase", &_gc_timer);
 
   ParallelScavengeHeap* heap = ParallelScavengeHeap::heap();
@@ -2503,6 +2512,7 @@ void PSParallelCompact::compact() {
   enqueue_dense_prefix_tasks(task_queue, active_gc_threads);
 
   {
+    trace_gc_phase_begin(GcPhase::Parallel_Par_Compact);
     GCTraceTime(Trace, gc, phases) tm("Par Compact", &_gc_timer);
 
     UpdateDensePrefixAndCompactionTask task(task_queue, active_gc_threads);
@@ -2514,9 +2524,11 @@ void PSParallelCompact::compact() {
       verify_complete(SpaceId(id));
     }
 #endif
+    trace_gc_phase_end(GcPhase::Parallel_Par_Compact);
   }
 
   DEBUG_ONLY(write_block_fill_histogram());
+  trace_gc_phase_end(GcPhase::Parallel_Compaction);
 }
 
 #ifdef  ASSERT

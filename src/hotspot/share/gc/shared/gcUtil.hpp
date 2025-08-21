@@ -232,7 +232,13 @@ enum GcPhase {
   Parallel_Unregister_NMethods = 7,
   Parallel_Free_Code_Blobs = 8,
   Parallel_Report_Object_Count = 9,
-  Parallel_Scavenge = 10
+  Parallel_Scavenge = 10,
+  Parallel_Par_Compact = 11,
+  Parallel_Post_Compact = 12,
+  Parallel_Summary = 13,
+  Parallel_Marking = 14,
+  Parallel_Adjust_Roots = 15,
+  Parallel_Compaction = 16
 };
 
 #endif // SHARE_GC_SHARED_GCUTIL_HPP
