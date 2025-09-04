@@ -220,6 +220,8 @@ class LinearLeastSquareFit : public CHeapObj<mtGC> {
 void trace_gc_thread_spawn();
 void trace_gc_phase_begin(int phase);
 void trace_gc_phase_end(int phase);
+void perf_ctrl_enable();
+void perf_ctrl_disable();
 
 enum GcPhase {
   Parallel_Pre_Compact = 0,

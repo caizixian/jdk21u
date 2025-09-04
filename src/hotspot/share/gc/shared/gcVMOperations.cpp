@@ -31,6 +31,7 @@
 #include "gc/shared/gcVMOperations.hpp"
 #include "gc/shared/gc_globals.hpp"
 #include "gc/shared/genCollectedHeap.hpp"
+#include "gc/shared/gcUtil.hpp"
 #include "interpreter/oopMapCache.hpp"
 #include "logging/log.hpp"
 #include "memory/classLoaderMetaspace.hpp"
@@ -77,12 +78,14 @@ const char* VM_GC_Operation::cause() const {
 // have to call it here, so it's only in one file.  Can't create new probes
 // for the other file anymore.   The dtrace probes have to remain stable.
 void NOINLINE VM_GC_Operation::notify_gc_begin(bool full) {
+  perf_ctrl_enable();
   HOTSPOT_GC_BEGIN(
                    full);
 }
 
 void NOINLINE VM_GC_Operation::notify_gc_end() {
   HOTSPOT_GC_END();
+  perf_ctrl_disable();
 }
 
 // Allocations may fail in several threads at about the same time,
