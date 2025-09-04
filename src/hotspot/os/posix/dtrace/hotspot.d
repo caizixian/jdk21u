@@ -44,6 +44,8 @@ provider hotspot {
   probe gc__end();
   probe gc__phase__begin(int);
   probe gc__phase__end(int);
+  probe gc__heap__used(long long);
+  probe gc__heap__capacity(long long);
   probe mem__pool__gc__begin(
     char*, uintptr_t, char*, uintptr_t,
     uintptr_t, uintptr_t, uintptr_t, uintptr_t);

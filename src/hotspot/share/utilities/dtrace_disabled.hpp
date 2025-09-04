@@ -67,6 +67,10 @@
 #define HOTSPOT_GC_PHASE_BEGIN_ENABLED() 0
 #define HOTSPOT_GC_PHASE_END(arg0)
 #define HOTSPOT_GC_PHASE_END_ENABLED() 0
+#define HOTSPOT_GC_HEAP_USED(arg0)
+#define HOTSPOT_GC_HEAP_USED_ENABLED() 0
+#define HOTSPOT_GC_HEAP_CAPACITY(arg0)
+#define HOTSPOT_GC_HEAP_CAPACITY_ENABLED() 0
 #define HOTSPOT_MEM_POOL_GC_BEGIN(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
 #define HOTSPOT_MEM_POOL_GC_BEGIN_ENABLED() 0
 #define HOTSPOT_MEM_POOL_GC_END(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)

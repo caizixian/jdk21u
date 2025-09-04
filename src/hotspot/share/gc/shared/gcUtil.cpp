@@ -180,6 +180,15 @@ void NOINLINE trace_gc_phase_begin(int phase) {
 
 void NOINLINE trace_gc_phase_end(int phase) { HOTSPOT_GC_PHASE_END(phase); }
 
+void NOINLINE trace_gc_heap_used(size_t size) {
+  HOTSPOT_GC_HEAP_USED(size);
+}
+
+void NOINLINE trace_gc_heap_capacity(size_t size) {
+  HOTSPOT_GC_HEAP_CAPACITY(size);
+}
+
+
 int read_perf_fd_env(const char *envName) {
   const char *fd_str = std::getenv(envName);
   if (fd_str == nullptr) {

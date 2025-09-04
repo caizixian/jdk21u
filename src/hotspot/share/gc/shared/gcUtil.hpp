@@ -220,6 +220,8 @@ class LinearLeastSquareFit : public CHeapObj<mtGC> {
 void trace_gc_thread_spawn();
 void trace_gc_phase_begin(int phase);
 void trace_gc_phase_end(int phase);
+void trace_gc_heap_used(size_t size);
+void trace_gc_heap_capacity(size_t size);
 void perf_ctrl_enable();
 void perf_ctrl_disable();
 

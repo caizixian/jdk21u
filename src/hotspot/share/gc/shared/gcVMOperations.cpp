@@ -81,11 +81,14 @@ void NOINLINE VM_GC_Operation::notify_gc_begin(bool full) {
   perf_ctrl_enable();
   HOTSPOT_GC_BEGIN(
                    full);
+  trace_gc_heap_used(Universe::heap()->used());
 }
 
 void NOINLINE VM_GC_Operation::notify_gc_end() {
   HOTSPOT_GC_END();
   perf_ctrl_disable();
+  trace_gc_heap_used(Universe::heap()->used());
+  trace_gc_heap_capacity(Universe::heap()->capacity());
 }
 
 // Allocations may fail in several threads at about the same time,
